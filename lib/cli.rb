@@ -84,10 +84,10 @@ class CLI
             main_menu_display
         elsif new_input.upcase == "E"
             exit_program  
-        elsif new_input.to_i > card_names.length
+        elsif new_input.to_i > card_names.length || new_input.count("a-zA-Z") > 0
             puts "Invalid selection"
             card_lookup_by_type
-        elsif input.to_i > card_names.length 
+        elsif input.to_i < card_names.length 
             new_index = input_to_index(new_input)
             card_display(suit_array, new_index)
             puts "------------------"
