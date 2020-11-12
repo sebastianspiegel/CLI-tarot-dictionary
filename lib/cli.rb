@@ -1,6 +1,3 @@
-#command line interface 
-#interact with user and connect files together
-
 class CLI
 
     @@suits = ["Major Arcana", "Cups", "Pentacles", "Swords", "Wands"]
@@ -28,7 +25,7 @@ class CLI
         elsif input == "2" || input == "3" || input == "4" || input == "5"
             minor_arcana(input)
         else
-            puts "Invalid"
+            puts "Invalid selection"
             card_lookup_by_type
         end
     end
@@ -49,7 +46,7 @@ class CLI
         elsif input.upcase == "N"
             card_lookup_by_type
         elsif input.count("a-zA-Z") > 0
-            puts "Invalid"
+            puts "Invalid selection"
             major_arcana
         elsif  input.to_i <= major_array.length 
             index = input_to_index(input)
@@ -65,11 +62,11 @@ class CLI
             elsif new_input.upcase == "E"
                 exit_program
             else
-                puts "Invalid"
+                puts "Invalid selection"
                 major_arcana
             end
         else
-            puts "Invalid"
+            puts "Invalid selection"
             major_arcana
         end
     end
@@ -88,12 +85,9 @@ class CLI
         elsif new_input.upcase == "E"
             exit_program  
         elsif new_input.to_i > card_names.length
-            puts "Invalid"
+            puts "Invalid selection"
             card_lookup_by_type
-        # elsif input.count("a-zA-Z") > 0
-        #     puts "Invalid"
-        #     card_lookup_by_type
-        else
+        elsif input.to_i > card_names.length 
             new_index = input_to_index(new_input)
             card_display(suit_array, new_index)
             puts "------------------"
@@ -110,9 +104,12 @@ class CLI
             elsif new_input.upcase == "B"
                 minor_arcana(index + 1)
             else
-                puts "Not valid"
+                puts "Invalid selection"
                 card_lookup_by_type
             end
+        else
+            puts "Invalid selection"
+            card_lookup_by_type
         end
     end
 
@@ -128,7 +125,7 @@ class CLI
             single_card(search_array)
         elsif search_array.length == 0
             puts "------------------"
-            puts "None found"
+            puts "No cards found"
             search_for_cards
         else
             search_array.each_with_index {|card, index| puts "  #{index+1}. #{card.name}"}
@@ -148,14 +145,14 @@ class CLI
         elsif input.upcase == "N"
             search_for_cards
         else
-            puts "Invalid"
+            puts "Invalid selection"
             mini_menu
             if input.upcase == "M"
                 main_menu_display
             elsif input.upcase == "E"
                 exit_program 
             else
-                puts "Invalid"
+                puts "Invalid selection"
                 main_menu_display
             end
         end
@@ -167,7 +164,7 @@ class CLI
         spread_input = gets.chomp
         num = spread_input.to_i
         if num <= 0 || num > 10
-            puts "Invalid"
+            puts "Invalid selection"
             reading
         else
             puts "  #{spread_input} card spread:"
@@ -185,7 +182,7 @@ class CLI
         elsif input.upcase == "N"
             reading 
         else
-            puts "Invalid"
+            puts "Invalid selection"
             main_menu
         end
     end
@@ -209,7 +206,7 @@ class CLI
         elsif input.upcase == "E" #exit 
             exit_program
         else
-            puts "Invalid"
+            puts "Invalid selection"
             main_menu_display
         end
     end
@@ -251,5 +248,4 @@ class CLI
     def self.display_suits_menu 
         suits.each_with_index {|item, index| puts "  #{index+1}. #{item}"}
     end
-
 end
