@@ -40,11 +40,14 @@ class CLI
         major_array.each {|card| card_names << card.name}
         card_names.each_with_index {|name, index| puts "  #{index+1}. #{name}"}
         mini_menu
+        puts "  N. New Search"
         input = gets.chomp
         if input.upcase == "M"
             main_menu_display
         elsif input.upcase == "E"
             exit_program
+        elsif input.upcase == "N"
+            card_lookup_by_type
         elsif input.count("a-zA-Z") > 0
             puts "Invalid"
             major_arcana
@@ -95,7 +98,7 @@ class CLI
             card_display(suit_array, new_index)
             puts "------------------"
             puts "  B. Back to #{suits[index]}"
-            puts "  S. New search"
+            puts "  N. New search"
             mini_menu
             new_input = gets.chomp
             if new_input.upcase == "M"
@@ -122,14 +125,7 @@ class CLI
         search_array = []
         search_array = TarotCards.find_by_name(input.titleize)
         if search_array.length == 1
-            search_array.each do |card|
-                puts "------------------"
-                puts "  Name: #{card.name}"
-                puts "  Type: #{card.type}"
-                puts "  Suit: #{card.suit}"
-                puts "  Meaning: #{card.meaning_up}"
-                puts "  Meaning reversed: #{card.meaning_rev}" 
-            end
+            single_card(search_array)
         elsif search_array.length == 0
             puts "------------------"
             puts "None found"
@@ -140,14 +136,7 @@ class CLI
             new_index = input_to_index(new_input)
             search_card = []
             search_card << search_array[new_index]
-            search_array.each do |card|
-                puts "------------------"
-                puts "  Name: #{card.name}"
-                puts "  Type: #{card.type}"
-                puts "  Suit: #{card.suit}"
-                puts "  Meaning: #{card.meaning_up}"
-                puts "  Meaning reversed: #{card.meaning_rev}" 
-            end
+            single_card(search_card)
         end
         mini_menu
         puts "  N. New Search"
@@ -159,7 +148,7 @@ class CLI
         elsif input.upcase == "N"
             search_for_cards
         else
-            puts "Invaid"
+            puts "Invalid"
             mini_menu
             if input.upcase == "M"
                 main_menu_display
@@ -181,25 +170,20 @@ class CLI
             puts "Invalid"
             reading
         else
-            puts "  #{spread_input} card spread"
-            puts "------------------"
+            puts "  #{spread_input} card spread:"
             reading_array = []
             num.times {reading_array << TarotCards.all.sample}
-            reading_array.each do |card|
-                puts "  Name: #{card.name}"
-                puts "  Type: #{card.type}"
-                puts "  Suit: #{card.suit}"
-                puts "  Meaning: #{card.meaning_up}"
-                puts "  Meaning reversed: #{card.meaning_rev}" 
-                puts "------------------"
-            end
+            single_card(reading_array)
        end
         mini_menu
+        puts "  N. New spread"
         input = gets.chomp
         if input.upcase == "M"
             main_menu_display
         elsif input.upcase == "E"
             exit_program 
+        elsif input.upcase == "N"
+            reading 
         else
             puts "Invalid"
             main_menu
@@ -245,9 +229,15 @@ class CLI
         puts "  Meaning reversed: #{array[index].meaning_rev}"
     end
 
-    def self.invalid 
-        puts "Invalid"
-        puts "------------------"
+   def self.single_card(array)
+        array.each do |card|
+            puts "------------------"
+            puts "  Name: #{card.name}"
+            puts "  Type: #{card.type}"
+            puts "  Suit: #{card.suit}"
+            puts "  Meaning: #{card.meaning_up}"
+            puts "  Meaning reversed: #{card.meaning_rev}" 
+        end
     end
 
     def self.input_to_index(input)
@@ -259,7 +249,7 @@ class CLI
     end
 
     def self.display_suits_menu 
-        CLI.suits.each_with_index {|item, index| puts "  #{index+1}. #{item}"}
+        suits.each_with_index {|item, index| puts "  #{index+1}. #{item}"}
     end
 
 end
