@@ -4,6 +4,6 @@ gem 'rspec'
 gem 'pry'
 gem 'json'
 gem 'net-http'
-#gem 'awesome_print'
+gem 'titleize', '~> 1.4', '>= 1.4.1'
 
 require_relative "./environment" 
