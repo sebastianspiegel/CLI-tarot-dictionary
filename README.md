@@ -1,5 +1,15 @@
 # 11-6-20-CLI-project
 
-Rider-Waite Tarot Dictionary 
+## A Rider-Waite Tarot Dictionary 
 
-Art from https://www.asciiart.eu/ and http://theageofmammals.com/2007/asciiouiji.html 
+Explaination here
+
+## Instalation 
+
+```bash
+how to install 
+```
+
+## Art  
+
+https://www.asciiart.eu/ and http://theageofmammals.com/2007/asciiouiji.html 

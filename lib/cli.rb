@@ -51,9 +51,8 @@ class CLI
         elsif  input.to_i <= major_array.length 
             index = input_to_index(input)
             card_display(major_array, index)
-            puts "------------------"
-            puts "  B. Back to Major Arcana"
             mini_menu
+            puts "  B. Back to Major Arcana"
             new_input = gets.chomp
             if new_input.upcase == "B"
                 major_arcana
@@ -90,16 +89,15 @@ class CLI
         elsif input.to_i < card_names.length 
             new_index = input_to_index(new_input)
             card_display(suit_array, new_index)
-            puts "------------------"
+            mini_menu
             puts "  B. Back to #{suits[index]}"
             puts "  N. New search"
-            mini_menu
             new_input = gets.chomp
             if new_input.upcase == "M"
                 main_menu_display
             elsif new_input.upcase == "E" 
                 exit_program
-            elsif new_input.upcase == "S"
+            elsif new_input.upcase == "N"
                 card_lookup_by_type
             elsif new_input.upcase == "B"
                 minor_arcana(index + 1)
