@@ -1,4 +1,5 @@
 class CLI
+    require 'word_wrap/core_ext'
 
     @@suits = ["Major Arcana", "Cups", "Pentacles", "Swords", "Wands"]
 
@@ -53,9 +54,12 @@ class CLI
             card_display(major_array, index)
             mini_menu
             puts "  B. Back to Major Arcana"
+            puts "  N. New Search"
             new_input = gets.chomp
             if new_input.upcase == "B"
                 major_arcana
+            elsif new_input.upcase == "N"
+                card_lookup_by_type
             elsif new_input.upcase == "M"
                 main_menu_display
             elsif new_input.upcase == "E"
@@ -220,8 +224,8 @@ class CLI
         puts "  Name: #{array[index].name}"
         puts "  Type: #{array[index].type}"
         puts "  Suit: #{array[index].suit}"
-        puts "  Meaning: #{array[index].meaning_up}"
-        puts "  Meaning reversed: #{array[index].meaning_rev}"
+        puts "  Meaning: #{array[index].meaning_up.fit}"
+        puts "  Meaning reversed: #{array[index].meaning_rev.fit}"
     end
 
    def self.single_card(array)
@@ -230,8 +234,8 @@ class CLI
             puts "  Name: #{card.name}"
             puts "  Type: #{card.type}"
             puts "  Suit: #{card.suit}"
-            puts "  Meaning: #{card.meaning_up}"
-            puts "  Meaning reversed: #{card.meaning_rev}" 
+            puts "  Meaning: #{card.meaning_up.fit}"
+            puts "  Meaning reversed: #{card.meaning_rev.fit}" 
         end
     end
 
