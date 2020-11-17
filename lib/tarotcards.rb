@@ -1,4 +1,4 @@
-class TarotCards
+class TarotCard
 
     @@all = []
 
@@ -29,6 +29,10 @@ class TarotCards
 
     def self.find_by_type(type) 
         self.all.select {|card| card.type == type}
+    end
+
+    def self.sorted_by_name
+        self.all.sort_by {|card| card.name}
     end
 
 end

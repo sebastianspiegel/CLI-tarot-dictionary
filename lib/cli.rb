@@ -3,17 +3,17 @@ class CLI
 
     @@suits = ["Major Arcana", "Cups", "Pentacles", "Swords", "Wands"]
 
-    def self.start
+    def start
         Art.welcome 
         main_menu_display
     end
 
-    def self.exit_program
+    def exit_program
         Art.ouija 
         exit!
     end
 
-    def self.card_lookup_by_type #view_cards
+    def card_lookup_by_type #view_cards
         display_suits_menu
         mini_menu
         input = gets.chomp 
@@ -31,9 +31,9 @@ class CLI
         end
     end
 
-    def self.major_arcana 
+    def major_arcana 
         major_array = []
-        major_array = TarotCards.find_by_type("major")
+        major_array = TarotCard.find_by_type("major")
         card_names = []
         major_array.each {|card| card_names << card.name}
         card_names.each_with_index {|name, index| puts "  #{index+1}. #{name}"}
@@ -50,34 +50,38 @@ class CLI
             puts "Invalid selection"
             major_arcana
         elsif  input.to_i <= major_array.length 
-            index = input_to_index(input)
-            card_display(major_array, index)
-            mini_menu
-            puts "  B. Back to Major Arcana"
-            puts "  N. New Search"
-            new_input = gets.chomp
-            if new_input.upcase == "B"
-                major_arcana
-            elsif new_input.upcase == "N"
-                card_lookup_by_type
-            elsif new_input.upcase == "M"
-                main_menu_display
-            elsif new_input.upcase == "E"
-                exit_program
-            else
-                puts "Invalid selection"
-                major_arcana
-            end
+            display_major_array(major_array, input)
         else
             puts "Invalid selection"
             major_arcana
         end
     end
 
-    def self.minor_arcana(input)
+    def display_major_array(major_array, input)
+        index = input_to_index(input)
+        card_display(major_array, index)
+        mini_menu
+        puts "  B. Back to Major Arcana"
+        puts "  N. New Search"
+        new_input = gets.chomp
+        if new_input.upcase == "B"
+            major_arcana
+        elsif new_input.upcase == "N"
+            card_lookup_by_type
+        elsif new_input.upcase == "M"
+            main_menu_display
+        elsif new_input.upcase == "E"
+            exit_program
+        else
+            puts "Invalid selection"
+            major_arcana
+        end
+    end
+
+    def minor_arcana(input)
         index = input_to_index(input)
         suit_array = []
-        suit_array = TarotCards.find_by_suit(suits[index].downcase)
+        suit_array = TarotCard.find_by_suit(suits[index].downcase)
         card_names = []
         suit_array.each {|card| card_names << card.name}
         card_names.each_with_index {|name, index| puts "  #{index+1}. #{name}"}
@@ -91,38 +95,42 @@ class CLI
             puts "Invalid selection"
             card_lookup_by_type
         elsif input.to_i < card_names.length 
-            new_index = input_to_index(new_input)
-            card_display(suit_array, new_index)
-            mini_menu
-            puts "  B. Back to #{suits[index]}"
-            puts "  N. New search"
-            new_input = gets.chomp
-            if new_input.upcase == "M"
-                main_menu_display
-            elsif new_input.upcase == "E" 
-                exit_program
-            elsif new_input.upcase == "N"
-                card_lookup_by_type
-            elsif new_input.upcase == "B"
-                minor_arcana(index + 1)
-            else
-                puts "Invalid selection"
-                card_lookup_by_type
-            end
+            display_minor_arcana(suit_array, new_input, index)
         else
             puts "Invalid selection"
             card_lookup_by_type
         end
     end
 
-    def self.search_for_cards
+    def display_minor_arcana(suit_array, new_input, index)
+        new_index = input_to_index(new_input)
+        card_display(suit_array, new_index)
+        mini_menu
+        puts "  B. Back to #{suits[index]}"
+        puts "  N. New search"
+        new_input = gets.chomp
+        if new_input.upcase == "M"
+            main_menu_display
+        elsif new_input.upcase == "E" 
+            exit_program
+        elsif new_input.upcase == "N"
+            card_lookup_by_type
+        elsif new_input.upcase == "B"
+            minor_arcana(index + 1)
+        else
+            puts "Invalid selection"
+            card_lookup_by_type
+        end
+    end
+
+    def search_for_cards
         puts "  Enter card name or 'MENU' to return to Main Menu."
         input = gets.chomp 
         if input.upcase == "MENU"
             main_menu_display
         end
         search_array = []
-        search_array = TarotCards.find_by_name(input.titleize)
+        search_array = TarotCard.find_by_name(input.titleize)
         if search_array.length == 1
             single_card(search_array)
         elsif search_array.length == 0
@@ -171,7 +179,7 @@ class CLI
         else
             puts "  #{spread_input} card spread:"
             reading_array = []
-            num.times {reading_array << TarotCards.all.sample}
+            num.times {reading_array << TarotCard.all.sample}
             single_card(reading_array)
        end
         mini_menu
@@ -189,7 +197,7 @@ class CLI
         end
     end
 
-    def self.main_menu_display 
+    def main_menu_display 
         puts "------------------"
         puts "  1. View Cards by Suit"
         puts "  2. Search for Cards by Name"
@@ -213,13 +221,13 @@ class CLI
         end
     end
 
-    def self.mini_menu
+    def mini_menu
         puts "------------------"
         puts "  M. Main Menu"
         puts "  E. Exit"
     end
 
-    def self.card_display(array, index)
+    def card_display(array, index)
         puts "------------------"
         puts "  Name: #{array[index].name}"
         puts "  Type: #{array[index].type}"
@@ -228,7 +236,7 @@ class CLI
         puts "  Meaning reversed: #{array[index].meaning_rev.fit}"
     end
 
-   def self.single_card(array)
+   def single_card(array)
         array.each do |card|
             puts "------------------"
             puts "  Name: #{card.name}"
@@ -239,15 +247,15 @@ class CLI
         end
     end
 
-    def self.input_to_index(input)
+    def input_to_index(input)
         input.to_i - 1
     end
 
-    def self.suits
+    def suits
         @@suits 
     end
 
-    def self.display_suits_menu 
+    def display_suits_menu 
         suits.each_with_index {|item, index| puts "  #{index+1}. #{item}"}
     end
 end

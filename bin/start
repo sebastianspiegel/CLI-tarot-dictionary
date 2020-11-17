@@ -4,4 +4,4 @@ require_relative '../environment'
 
 
 API.create_cards
-CLI.start
+CLI.new.start

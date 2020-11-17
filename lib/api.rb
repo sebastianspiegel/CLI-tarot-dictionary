@@ -11,7 +11,7 @@ class API
 
     def self.create_cards
         self.get_cards.each do |card|
-            TarotCards.new(card["name"], card["value"], card["suit"], card["type"], card["meaning_up"], card["meaning_rev"])
+            TarotCard.new(card["name"], card["value"], card["suit"], card["type"], card["meaning_up"], card["meaning_rev"])
         end
     end
 
