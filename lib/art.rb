@@ -17,7 +17,6 @@ class Art
         puts " "
         puts "A Rider-Waite Tarot dictionary"
         puts " "
-        #puts "------------------"
     end
 
     def self.ouija
