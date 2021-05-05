@@ -168,7 +168,7 @@ class CLI
         end
     end
 
-    def self.reading
+    def reading
         puts "------------------"
         puts "  How many cards? (max 10)"
         spread_input = gets.chomp
