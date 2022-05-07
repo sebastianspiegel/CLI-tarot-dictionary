@@ -3,6 +3,10 @@ class CLI
 
     @@suits = ["Major Arcana", "Cups", "Pentacles", "Swords", "Wands"]
 
+    def border 
+        puts "                      ------------------"
+    end
+
     def start
         Art.welcome 
         main_menu_display
@@ -134,7 +138,8 @@ class CLI
         if search_array.length == 1
             single_card(search_array)
         elsif search_array.length == 0
-            puts "------------------"
+            puts border
+            puts " ---"
             puts "No cards found"
             search_for_cards
         else
@@ -169,7 +174,7 @@ class CLI
     end
 
     def reading
-        puts "------------------"
+        puts border
         puts "  How many cards? (max 10)"
         spread_input = gets.chomp
         num = spread_input.to_i
@@ -198,7 +203,8 @@ class CLI
     end
 
     def main_menu_display 
-        puts "------------------"
+        puts border
+        puts " ---"
         puts "  1. View Cards by Suit"
         puts "  2. Search for Cards by Name"
         puts "  3. Get a Reading"
@@ -222,13 +228,14 @@ class CLI
     end
 
     def mini_menu
-        puts "------------------"
+        border
+        puts " ---"
         puts "  M. Main Menu"
         puts "  E. Exit"
     end
 
     def card_display(array, index)
-        puts "------------------"
+        border
         puts "  Name: #{array[index].name}"
         puts "  Type: #{array[index].type}"
         puts "  Suit: #{array[index].suit}"
@@ -238,7 +245,7 @@ class CLI
 
    def single_card(array)
         array.each do |card|
-            puts "------------------"
+            border
             puts "  Name: #{card.name}"
             puts "  Type: #{card.type}"
             puts "  Suit: #{card.suit}"
